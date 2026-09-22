@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   Euclid's Music
-  One page, two sliders. The Euclidean algorithm writes both the notes and the rhythm.
+  One page, two related musical constructions: a modular pitch walk and an evenly distributed rhythm.
   MIT License — see LICENSE. No dependencies, no build step.
 -->
 <html lang="en">
@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Euclid's Music</title>
-<meta name="description" content="Two sliders: one ancient mathematical idea writes both the notes and the rhythm.">
+<meta name="description" content="Hear a modular pitch walk and an evenly distributed rhythm side by side.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%232C2647'/><circle cx='50' cy='12' r='9' fill='%23FFD166'/><circle cx='83' cy='69' r='9' fill='%23F78FB3'/><circle cx='17' cy='69' r='9' fill='%237ED6DF'/><path d='M50 12 83 69 17 69Z' fill='none' stroke='%23EFEAFB' stroke-width='4' stroke-linejoin='round' opacity='.7'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,10 +59,20 @@ body::after{
 header{display:flex;align-items:center;justify-content:center;margin-bottom:clamp(7px,1.5vh,16px);flex-shrink:0}
 .brand{display:flex;align-items:center;gap:13px}
 .brand-mark{display:block;width:64px;height:64px;overflow:visible;flex:0 0 auto}
-.brand-copy{display:grid;gap:1px}
+.brand-copy{display:grid;gap:5px;min-width:0;max-width:410px}
+.brand-copy h1{font-family:var(--disp);font-weight:600;font-size:clamp(18px,4.8vw,22px);line-height:1.3}
 .brand-copy span{font-family:var(--disp);font-weight:600;font-size:clamp(18px,4.8vw,22px);line-height:1.3;letter-spacing:.015em;white-space:nowrap}
 .brand-copy .en{color:var(--tx-soft)}
-.brand-copy .tagline{font-family:var(--ui);font-size:11px;line-height:1.25;font-weight:600;letter-spacing:0;color:#9186A3;white-space:normal}
+.brand-copy .tagline{font-family:var(--ui);font-size:12px;line-height:1.5;font-weight:600;letter-spacing:0;color:var(--tx-soft);white-space:normal}
+.intro{width:min(100%,740px);margin:8px 0 20px;text-align:center;font-size:14px;line-height:1.6;color:var(--tx-soft);user-select:text;-webkit-user-select:text}
+.intro strong{color:var(--tx)}
+.try-it{margin-top:7px;color:#E8C98F}
+.audio-options{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:12px;color:var(--tx-soft)}
+.audio-options label{display:flex;align-items:center;gap:6px;min-height:32px;cursor:pointer}
+.audio-options input{accent-color:var(--brass)}
+.status{font-size:12px;line-height:1.5;color:#E8C98F;min-height:18px;margin-top:6px}
+.piano-help{font-size:12px;line-height:1.5;margin-top:6px;color:var(--tx-soft)}
+a{color:#E8C98F} button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
 .game-layout{width:min(100%,920px);display:grid;grid-template-columns:minmax(0,480px) minmax(330px,400px);align-items:start;justify-content:space-between;gap:clamp(28px,5vw,54px)}
 .visual-column,.interaction-column{min-width:0;display:flex;flex-direction:column;align-items:center}
 
@@ -237,8 +247,9 @@ input[type=range]:active::-moz-range-thumb{transform:scale(1.12)}
 .key.black.live{background:#F4CE7A;color:#221B33}
 .key.root{box-shadow:inset 0 0 0 3px #E9B85C;z-index:3}
 .key.black.root{box-shadow:inset 0 0 0 2px #FFD991;z-index:4}
+.key.white.root,.key.white.live,.key.white:focus-visible{z-index:1}
 .lesson-head{justify-content:space-between;flex-wrap:wrap;row-gap:8px}
-.edo{display:flex;align-items:center;gap:4px}
+.edo{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
 .edo-label{font-size:12px;color:var(--tx-soft);margin-right:4px}
 .edo button{
   appearance:none;-webkit-appearance:none;cursor:pointer;min-width:34px;height:28px;padding:0 8px;
@@ -274,7 +285,7 @@ input[type=range]:active::-moz-range-thumb{transform:scale(1.12)}
 .theory p{margin-top:8px;font-size:14px;line-height:1.65;color:#C7BDD5;user-select:text;-webkit-user-select:text}
 .theory .insight{color:#E7E0EF}
 .theory .tuning{color:#E8C98F;font-variant-numeric:tabular-nums;font-size:13px}
-footer .credit{margin-top:10px;font-size:12px;color:#8C819F;line-height:1.7}
+footer .credit{margin-top:10px;font-size:12px;color:var(--tx-soft);line-height:1.7}
 footer .credit .en{font-size:12px;color:#7A7090}
 @media(hover:hover){
   #playBtn:hover{transform:scale(1.035)}
@@ -300,7 +311,9 @@ footer .en{font-family:var(--disp);font-size:13px;color:#968BAA}
   .visual-column,.interaction-column{width:min(100%,400px)}
   .stage-wrap{width:min(100%,38vh,350px);width:min(100%,38svh,350px)}
   #badge{min-height:36px;margin:-2px 0 3px;padding:4px 0}
-  .controls{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+  .controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 14px}
+  .ctl{min-width:0}
+  .intro{font-size:12px;margin:8px 0 10px}
   .ctl .row{min-height:24px}.ctl output{font-size:20px}
   input[type=range]{height:34px}
   .ctl .cap{font-size:11px;line-height:1.35;min-height:30px}
@@ -361,11 +374,16 @@ footer .en{font-family:var(--disp);font-size:13px;color:#968BAA}
       <text x="36" y="39" text-anchor="middle" fill="#F3DBAB" font-family="Noto Serif SC, serif" font-size="9.5" font-weight="600" letter-spacing=".25">music</text>
     </svg>
     <div class="brand-copy">
-      <span>Euclid’s Music</span>
-      <span class="tagline">Author of Elements; repeated remainders reveal the GCD.</span>
+      <h1>Euclid’s Music</h1>
+      <span class="tagline">A modular pitch walk and an evenly distributed rhythm, heard side by side.</span>
     </div>
   </div>
 </header>
+
+<section class="intro" aria-label="How to explore">
+  <p><strong>Inner ring: pitch. Outer ring: rhythm.</strong> One walks by a fixed step; the other spreads pulses as evenly as possible. Two related constructions, not one algorithm.</p>
+  <p class="try-it">Try this: press Play, then move Step from +4 to +3. The pitch cycle grows from three tones to four. Change Pulses to hear a new rhythm.</p>
+</section>
 
 <main class="game-layout">
 <div class="visual-column">
@@ -401,9 +419,9 @@ footer .en{font-family:var(--disp);font-size:13px;color:#968BAA}
     <g id="dots"></g>
     <g id="fx"></g>
   </svg>
-  <button id="playBtn" aria-label="Play or pause">
+  <button id="playBtn" aria-label="Play" aria-pressed="false">
     <svg class="ic-play" viewBox="0 0 24 24"><path d="M7 4.6c0-1.2 1.3-1.9 2.3-1.3l11 6.4c1 .6 1 2 0 2.6l-11 6.4c-1 .6-2.3-.1-2.3-1.3V4.6z"/></svg>
-    <svg class="ic-pause" viewBox="0 0 24 24"><rect x="5.5" y="4" width="4.6" height="16" rx="1.6"/><rect x="13.9" y="4" width="4.6" height="16" rx="1.6"/></svg>
+    <svg class="ic-pause" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/></svg>
   </button>
 </div>
 
@@ -421,7 +439,7 @@ footer .en{font-family:var(--disp);font-size:13px;color:#968BAA}
     <input id="s1" type="range" min="1" max="11" step="1" value="7" aria-label="Pitch step" aria-describedby="cap1">
     <div class="cap" id="cap1"></div>
     <div class="atlas-head">Shapes</div>
-    <div id="stepAtlas" class="step-atlas" role="list" aria-label="Step-shape catalogue"></div>
+    <div id="stepAtlas" class="step-atlas" role="group" aria-label="Step-shape catalogue"></div>
   </div>
   <div class="ctl">
     <div class="row"><label class="name" for="s2">Pulses</label><output id="val2" for="s2">8 / 16</output></div>
@@ -431,6 +449,11 @@ footer .en{font-family:var(--disp);font-size:13px;color:#968BAA}
 </div>
 
 <section class="lesson" aria-labelledby="theoryTitle">
+  <div class="audio-options">
+    <label><input id="slotClicks" type="checkbox"> Hear slot clicks</label>
+    <label><input id="closureChord" type="checkbox"> Hear chord on return</label>
+  </div>
+  <p class="status" id="audioStatus" role="status">105 BPM · 16 slots per bar · each pulse plays the next pitch</p>
   <div class="lesson-head">
     <span><strong id="rootReadout">C</strong> Root</span>
     <div class="edo" id="edo" role="radiogroup" aria-label="Divisions of the octave">
@@ -457,6 +480,7 @@ footer .en{font-family:var(--disp);font-size:13px;color:#968BAA}
     <button type="button" class="key black" data-pc="8" aria-label="G sharp, set as root">G♯</button>
     <button type="button" class="key black" data-pc="10" aria-label="A sharp, set as root">A♯</button>
   </div>
+  <p class="piano-help" id="pianoHelp">Tap a dot or piano key to choose the starting pitch. Playback keeps that root.</p>
   <details class="theory">
     <summary>Music theory</summary>
     <div aria-live="polite">
@@ -465,6 +489,8 @@ footer .en{font-family:var(--disp);font-size:13px;color:#968BAA}
       <p id="theoryPlain"></p>
       <p class="insight" id="theoryInsight"></p>
       <p class="tuning" id="theoryTuning"></p>
+      <p>The pitch walk closes after N / gcd(k, N) steps. A root other than C translates the same pitch set. Pitch classes wrap within one octave: an upward step on the ring can sound downward at the octave boundary.</p>
+      <p>The rhythm uses Bjorklund’s algorithm on sixteen equally timed slots. For m pulses, neighboring gaps are floor(16/m) or ceil(16/m) slots. Changing a control restarts the pattern so the sound matches the display.</p>
     </div>
   </details>
 </section>
@@ -475,6 +501,7 @@ footer .en{font-family:var(--disp);font-size:13px;color:#968BAA}
 <footer>
   Cycles and remainders, heard two ways.
   <div class="credit">Designed and built independently by Yang Xiao, 2026 · MIT License</div>
+  <div><a href="https://github.com/Yxiao-Dev/euclids-music">Source, mathematics &amp; references</a> · An interactive exploration; learning outcomes have not been evaluated.</div>
 </footer>
 
 <script>
@@ -534,7 +561,7 @@ const noteName = (i, n = N) => {
   if (n === 12) return NOTE[i];
   const semitones = i * 12 / n, nearest = Math.round(semitones);
   const offset = semitones - nearest;
-  return NOTE[(nearest % 12 + 12) % 12] + (offset > .08 ? "↑" : offset < -.08 ? "↓" : "");
+  return NOTE[(nearest % 12 + 12) % 12] + (offset > 1e-8 ? "↑" : offset < -1e-8 ? "↓" : "");
 };
 const hue = (pc, n = N) => pc * 360 / n;
 
@@ -554,8 +581,7 @@ const NAMES = {
   6:["Tritone","Tritone"],
 };
 const RNAMES = {
-  2:"Half notes", 4:"Four-on-the-floor", 5:"Bossa family",
-  6:"Tresillo ×2", 7:"Samba family", 8:"Even eighths", 16:"Full sixteenths",
+  2:"Half-note pulses", 4:"Quarter-note pulses", 8:"Even eighths", 16:"Full sixteenths",
 };
 /* ==== ENDPURE ==== */
 
@@ -563,7 +589,6 @@ const RNAMES = {
 const R_PITCH = 126, R_RHY = 170, DOT_R = 14, BEAN_R = 6.5;
 const BPM = 105, SLOT_DUR = 60 / BPM / 4;         // 16th notes
 const LOOKAHEAD = 0.12, TICK_MS = 25;
-const CLOSURE_DELAY = 0.09, CLOSURE_HOLD = 1.70;   // full chord decay, then a small breath before the next transposition
 
 let k = 7, m = 8;
 let root = 0;
@@ -574,7 +599,9 @@ let pattern = bjorklund(m, SLOTS);
 let ctx = null, master = null, closureBus = null, playing = false, timer = null;
 let slot = 0, nextTime = 0, t0 = 0;
 let pitchIdx = 0, notesSince = 0, badgeShown = false, gen = 0;
-let playShift = 0;                                  // degrees the shape has climbed since play started
+let playShift = 0;                                  // root stays fixed until explicitly changed
+let transportBusy = false;
+const voices = new Set();
 const evq = [];                                    // scheduled visual events
 
 /* ---------- dom ---------- */
@@ -774,12 +801,8 @@ function addLine(pcA, pcB, animate, delay = 0) {
 }
 function clearLines(fade) {
   prevVisPc = null;
-  if (fade && linesG.children.length) {
-    for (const g of [haloG, softG, linesG]) g.classList.add("fade");
-    setTimeout(() => {
-      for (const g of [haloG, softG, linesG]) { g.textContent = ""; g.classList.remove("fade"); }
-    }, 260);
-  } else for (const g of [haloG, softG, linesG]) g.textContent = "";
+  // Clearing synchronously prevents an old fade callback erasing a new shape.
+  for (const g of [haloG, softG, linesG]) { g.textContent = ""; g.classList.remove("fade"); }
 }
 function drawFullPolygon() {
   clearLines(false);
@@ -849,7 +872,7 @@ function updateCaptions() {
   const q = Math.floor(SLOTS / m), r = SLOTS % m, spread = [];
   if (r) spread.push(`${r}×${q + 1}`);
   if (m - r) spread.push(`${m - r}×${q}`);
-  const rhythmNames = {2:"Half-note pulses",4:"Four-on-the-floor",5:"Bossa family",6:"Tresillo ×2",7:"Samba family",8:"Even eighths",16:"Full sixteenths"};
+  const rhythmNames = RNAMES;
   cap2.textContent = `E(${m},16): 16 = ${q}×${m} + ${r} → ${spread.join(" + ")}` +
     (rhythmNames[m] ? ` · ${rhythmNames[m]}` : "");
   cap2.title = `Gaps: ${gaps}`;
@@ -873,6 +896,9 @@ function updatePianoTheory() {
   const pianoRoot = N === 12 ? activeRoot : Math.round(activeRoot * 12 / N) % 12;
   rootReadout.textContent = noteName(activeRoot);
   lesson.classList.toggle("off-piano", !onPiano);
+  $("pianoHelp").textContent = onPiano
+    ? "Tap a dot or piano key to choose the starting pitch. Playback keeps that root."
+    : "This is a fixed 12-tone reference, not a retuned keyboard. Highlights show nearest keys; tap the ring to choose an exact pitch. Arrows show tuning above or below a key.";
 
   // The tuning strip: the piano's twelve pitches as fixed grey ticks, the current
   // tuning's N pitches as coloured marks on the same linear pitch axis. At N=12 they
@@ -917,7 +943,7 @@ function updatePianoTheory() {
     theoryTitle.textContent = `${N}-tone equal temperament`;
     theoryNotes.textContent = orbitArr.concat(root).map(pc => noteName(pc)).join(" → ");
     theoryPlain.textContent = `One step = ${(1200 / N).toFixed(1)} cents. ${gcdLine}`;
-    theoryInsight.textContent = `The piano cannot hold this tuning: the coloured marks above fall between the keys.`;
+    theoryInsight.textContent = `The fixed piano cannot represent this complete tuning: except for C, the coloured marks fall between its twelve reference pitches.`;
   }
   // The negotiation, for whichever N is on the clock.
   const f = bestSteps(JUST.fifth), th = bestSteps(JUST.third);
@@ -927,30 +953,36 @@ function updatePianoTheory() {
 }
 
 /* ---------- audio ---------- */
-function makeIR(seconds, decay) {
-  const sr = ctx.sampleRate, len = Math.floor(sr * seconds);
-  const buf = ctx.createBuffer(2, len, sr);
-  for (let ch = 0; ch < 2; ch++) {
-    const d = buf.getChannelData(ch);
-    for (let i = 0; i < len; i++)
-      d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, decay);
-  }
-  return buf;
-}
 function buildAudio() {
-  ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const Audio = window.AudioContext || window.webkitAudioContext;
+  if (!Audio) throw new Error("Web Audio is unavailable");
+  ctx = new Audio();
   master = ctx.createGain(); master.gain.value = 0.9;
   const comp = ctx.createDynamicsCompressor();
   comp.threshold.value = -18; comp.knee.value = 20; comp.ratio.value = 4;
-  const conv = ctx.createConvolver(); conv.buffer = makeIR(1.6, 3);
-  const wet = ctx.createGain(); wet.gain.value = 0.16;
   closureBus = ctx.createGain(); closureBus.gain.value = .72;
   const closureLimiter = ctx.createDynamicsCompressor();
   closureLimiter.threshold.value = -26; closureLimiter.knee.value = 8;
   closureLimiter.ratio.value = 16; closureLimiter.attack.value = .003; closureLimiter.release.value = .28;
   closureBus.connect(closureLimiter); closureLimiter.connect(master);
   master.connect(comp); comp.connect(ctx.destination);
-  master.connect(conv); conv.connect(wet); wet.connect(comp);
+  // Dry output makes Stop immediate and keeps closely spaced onsets distinct.
+  ctx.addEventListener("statechange", () => {
+    if (playing && ctx.state !== "running") stopPlayback("Audio interrupted. Press Play to restart.");
+  });
+}
+function trackVoice(oscillator, nodes) {
+  voices.add(oscillator);
+  oscillator.addEventListener("ended", () => {
+    voices.delete(oscillator);
+    oscillator.disconnect();
+    for (const node of nodes) node.disconnect();
+  }, { once: true });
+}
+function silence() {
+  if (!ctx) return;
+  for (const voice of voices) { try { voice.stop(); } catch {} }
+  voices.clear();
 }
 function pluck(t, pc) {
   const f = freq(pc);
@@ -973,6 +1005,8 @@ function pluck(t, pc) {
     lp.connect(pan); out = pan;
   }
   out.connect(master);
+  trackVoice(o1, [g1, lp, ...(out === lp ? [] : [out])]);
+  trackVoice(o2, [g2]);
   o1.start(t); o2.start(t); o1.stop(t + 1.2); o2.stop(t + 0.4);
 }
 function tick(t, down) {
@@ -983,6 +1017,7 @@ function tick(t, down) {
   g.gain.linearRampToValueAtTime(down ? 0.05 : 0.026, t + 0.004);
   g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
   o.connect(g); g.connect(master);
+  trackVoice(o, [g]);
   o.start(t); o.stop(t + 0.07);
 }
 function soundClosureBloom(t, shift = 0) {
@@ -1003,8 +1038,8 @@ function soundClosureBloom(t, shift = 0) {
     if (ctx.createStereoPanner) {
       const pan = ctx.createStereoPanner();
       pan.pan.value = L === 1 ? 0 : (i / (L - 1) - .5) * .9;
-      g.connect(pan); pan.connect(closureBus);
-    } else g.connect(closureBus);
+      g.connect(pan); pan.connect(closureBus); trackVoice(o, [g, pan]);
+    } else { g.connect(closureBus); trackVoice(o, [g]); }
     o.start(start); o.stop(start + decay + .05);
   });
 }
@@ -1012,19 +1047,25 @@ function soundClosureBloom(t, shift = 0) {
 /* ---------- direct pitch audition ---------- */
 async function auditionPitch(pc) {
   if (playing) return;
-  if (!ctx) buildAudio();
-  if (ctx.state === "suspended") await ctx.resume();
-  pluck(ctx.currentTime + .012, pc);
-  setActiveDot(pc);
+  const revision = gen;
+  try {
+    if (!ctx) buildAudio();
+    if (ctx.state !== "running") await ctx.resume();
+    if (revision !== gen || playing) return;
+    silence();
+    pluck(ctx.currentTime + .012, pc);
+    setActiveDot(pc);
+  } catch { $("audioStatus").textContent = "Audio could not start. Try pressing Play, or use a browser with Web Audio support."; }
 }
 function setRoot(pc) {
+  silence();
   root = (pc + N) % N;
   orbitArr = transposeOrbit(k, root); L = orbitArr.length; inOrbit = new Set(orbitArr);
   pitchIdx = 0; notesSince = 0; playShift = 0; prevSchedPc = null; badgeShown = false; gen++;
   evq.length = 0;
   badge.classList.remove("show");
   styleDots(); updateCaptions();
-  if (playing) clearLines(true);
+  if (playing) restartPlayback();
   else { clearLines(false); drawFullPolygon(); }
 }
 async function chooseRoot(pc) {
@@ -1035,31 +1076,34 @@ pianoKeys.forEach(key => key.addEventListener("click", () => { if (N === 12) cho
 
 /* ---------- scheduler (lookahead) ---------- */
 function schedule() {
-  const ahead = document.hidden ? 1.1 : LOOKAHEAD;  // survive background-tab timer throttling
-  while (nextTime < ctx.currentTime + ahead) {
+  // If the main thread stalls, restart instead of bursting overdue notes.
+  if (nextTime < ctx.currentTime - SLOT_DUR) { restartPlayback(); return; }
+  while (nextTime < ctx.currentTime + LOOKAHEAD) {
     const s = slot % SLOTS;
-    tick(nextTime, s === 0);
+    if ($("slotClicks").checked) tick(nextTime, s === 0);
     if (pattern[s]) {
       const idx = pitchIdx % L;
-      const shift = Math.floor(notesSince / L) % N;
-      const first = idx === 0, closing = idx === L - 1;
+      const shift = 0;
+      const first = notesSince === 0, closing = idx === 0 && notesSince > 0;
       const pc = (orbitArr[idx] + shift) % N;
       pluck(nextTime, pc);
-      if (closing) soundClosureBloom(nextTime + CLOSURE_DELAY, shift);
+      if (closing && $("closureChord").checked) soundClosureBloom(nextTime, shift);
       evq.push({ t: nextTime, type: "note", pc, prev: prevSchedPc, slot: s, closing, first, shift, gen });
       prevSchedPc = pc;
       pitchIdx++; notesSince++;
     } else {
       evq.push({ t: nextTime, type: "rest", slot: s });
     }
-    slot++; nextTime += SLOT_DUR +
-      (pattern[s] && pitchIdx % L === 0 ? CLOSURE_HOLD + (L > 8 ? .45 : 0) : 0);
+    slot++; nextTime += SLOT_DUR;
   }
 }
 let prevSchedPc = null;
 function applyEvent(ev, stale) {
   markSlot(ev.slot);
   if (ev.type !== "note" || ev.gen !== gen) return;  // event from before a step change
+  if (!ev.first && !ev.closing && (linesG.children.length >= L || badgeShown)) {
+    clearLines(false); badgeShown = false; badge.classList.remove("show");
+  }
   if (ev.first) {
     clearLines(false);                                // a fresh transposition starts clean
     playShift = ev.shift;
@@ -1074,7 +1118,6 @@ function applyEvent(ev, stale) {
   prevVisPc = ev.pc;
   if (ev.closing) {
     const cycleRoot = (root + ev.shift) % N;
-    if (L > 2) addLine(ev.pc, cycleRoot, true);
     closureFx(ev.shift);
   }
 }
@@ -1085,40 +1128,67 @@ function frame() {
       const ev = evq.shift();
       applyEvent(ev, now - ev.t > 0.25);
     }
-    setConductor(((now - t0) / (SLOT_DUR * SLOTS)) % 1);
+    setConductor(Math.max(0, (now - t0) / (SLOT_DUR * SLOTS)) % 1);
   }
   requestAnimationFrame(frame);
 }
 
 /* ---------- transport ---------- */
-async function toggle() {
-  if (!ctx) buildAudio();
-  if (ctx.state === "suspended") await ctx.resume();
-  playing = !playing;
-  document.body.classList.toggle("playing", playing);
-  if (playing) {
-    slot = 0; pitchIdx = 0; notesSince = 0; playShift = 0; prevSchedPc = null; evq.length = 0;
-    clearLines(false); setActiveDot(null);
-    nextTime = ctx.currentTime + 0.08; t0 = nextTime;
-    timer = setInterval(schedule, TICK_MS);
-    schedule();
-  } else {
-    clearInterval(timer); timer = null;
-    evq.length = 0; playShift = 0; setActiveDot(null); setLiveKey(null);
-    styleDots(); updatePianoTheory();
-    drawFullPolygon();
-  }
+function resetSequence() {
+  silence(); gen++;
+  slot = 0; pitchIdx = 0; notesSince = 0; playShift = 0; prevSchedPc = null; evq.length = 0;
+  badgeShown = false; badge.classList.remove("show");
+  beans.forEach(b => b.classList.remove("now", "pop")); lastNowBean = null; rhythmRewarded = false;
+  fxG.textContent = ""; lightsG.textContent = "";
+  flash.classList.remove("go"); closureFill.classList.remove("go");
+  clearLines(false); setActiveDot(null); setConductor(0);
+  styleDots(); updatePianoTheory();
 }
+function restartPlayback() {
+  resetSequence();
+  nextTime = ctx.currentTime + .08; t0 = nextTime;
+  schedule();
+}
+function stopPlayback(message = "Stopped · press Play to start from the selected root") {
+  playing = false; clearInterval(timer); timer = null;
+  resetSequence(); drawFullPolygon();
+  document.body.classList.remove("playing");
+  playBtn.setAttribute("aria-label", "Play"); playBtn.setAttribute("aria-pressed", "false");
+  $("audioStatus").textContent = message;
+}
+async function toggle() {
+  if (transportBusy) return;
+  if (playing) { stopPlayback(); return; }
+  transportBusy = true;
+  try {
+    if (!ctx) buildAudio();
+    if (ctx.state !== "running") await ctx.resume();
+    if (ctx.state !== "running" || document.hidden) return;
+    playing = true; document.body.classList.add("playing");
+    playBtn.setAttribute("aria-label", "Stop"); playBtn.setAttribute("aria-pressed", "true");
+    $("audioStatus").textContent = "Playing · 105 BPM · 16 equally timed slots per bar";
+    restartPlayback(); timer = setInterval(schedule, TICK_MS);
+  } catch { stopPlayback("Audio could not start. Try again, or use a browser with Web Audio support."); }
+  finally { transportBusy = false; }
+}
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    if (playing) stopPlayback("Paused while away · press Play to restart");
+    else { gen++; silence(); }
+  }
+});
+window.addEventListener("pagehide", () => { if (playing) stopPlayback(); else silence(); });
 
 /* ---------- controls ---------- */
 function setK(v) {
+  silence();
   k = v;
   orbitArr = transposeOrbit(k, root); L = orbitArr.length; inOrbit = new Set(orbitArr);
   pitchIdx = 0; notesSince = 0; playShift = 0; prevSchedPc = null; badgeShown = false; gen++;
   evq.length = 0;
   badge.classList.remove("show");
   styleDots(); updateCaptions(); updateStepAtlas();
-  if (playing) { clearLines(true); }
+  if (playing) { restartPlayback(); }
   else { clearLines(false); drawFullPolygon(); }
 }
 function setM(v) {
@@ -1126,9 +1196,11 @@ function setM(v) {
   pattern = bjorklund(m, SLOTS);
   rhythmRewarded = false;
   styleBeans(true); updateCaptions();
+  if (playing) restartPlayback();
 }
 function setN(n) {
   if (!EDOS.includes(n) || n === N) return;
+  silence();
   // Keep the musical meaning of the step: if you were on this tuning's best fifth
   // (or third), land on the new tuning's best fifth (or third); otherwise scale.
   let nk;
@@ -1144,19 +1216,31 @@ function setN(n) {
   evq.length = 0;
   badge.classList.remove("show");
   buildRing();
+  chordPaints.textContent = ""; chordInks.clear(); noteGlowInks.clear();
   buildStepAtlas();
   for (const b of edoGroup.querySelectorAll("button")) {
     const on = Number(b.dataset.n) === N;
-    b.classList.toggle("on", on); b.setAttribute("aria-checked", String(on));
+    b.classList.toggle("on", on); b.setAttribute("aria-checked", String(on)); b.tabIndex = on ? 0 : -1;
   }
   styleDots(); updateCaptions();
-  if (wasPlaying) clearLines(true);
+  if (wasPlaying) restartPlayback();
   else { clearLines(false); drawFullPolygon(); }
 }
 edoGroup.addEventListener("click", e => {
   const b = e.target.closest("button[data-n]");
   if (b) setN(Number(b.dataset.n));
 });
+const edoButtons = [...edoGroup.querySelectorAll("button[data-n]")];
+edoButtons.forEach(b => { b.tabIndex = Number(b.dataset.n) === N ? 0 : -1; });
+edoGroup.addEventListener("keydown", e => {
+  if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(e.key)) return;
+  const index = edoButtons.indexOf(e.target); if (index < 0) return;
+  e.preventDefault();
+  const next = e.key === "Home" ? 0 : e.key === "End" ? edoButtons.length - 1
+    : (index + (["ArrowRight", "ArrowDown"].includes(e.key) ? 1 : -1) + edoButtons.length) % edoButtons.length;
+  setN(Number(edoButtons[next].dataset.n)); edoButtons[next].focus();
+});
+for (const id of ["slotClicks", "closureChord"]) $(id).addEventListener("change", () => { if (playing) restartPlayback(); });
 stepAtlas.addEventListener("click", e => {
   const button = e.target.closest("button[data-k]");
   if (!button) return;
@@ -1168,7 +1252,7 @@ s2.addEventListener("input", e => setM(+e.target.value));
 playBtn.addEventListener("click", toggle);
 window.addEventListener("keydown", e => {
   if (e.code === "Space" && (e.target === document.body || e.target === playBtn)) {
-    e.preventDefault(); toggle();
+    e.preventDefault(); if (!e.repeat) toggle();
   }
 });
 
