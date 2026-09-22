@@ -57,7 +57,7 @@ eq(bjorklund(7, 16).join(""), "1001010100101010", "E(7,16) samba necklace");
 eq(bjorklund(16, 16).join(""), "1".repeat(16), "E(16,16) all onsets");
 eq(bjorklund(1, 16).join(""), "1" + "0".repeat(15), "E(1,16)");
 
-/* ---- maximal evenness: every gap is floor or ceil of 16/m; downbeat always sounds ---- */
+/* ---- circular balance, including distances beyond adjacent onsets ---- */
 for (let m = 1; m <= 16; m++) {
   const p = bjorklund(m, SLOTS);
   eq(p.length, SLOTS, `E(${m},16) length`);
@@ -67,6 +67,12 @@ for (let m = 1; m <= 16; m++) {
   eq(gaps.reduce((s, v) => s + v, 0), SLOTS, `E(${m},16) gaps sum`);
   const lo = Math.floor(SLOTS / m), hi = Math.ceil(SLOTS / m);
   ok(gaps.every(g => g === lo || g === hi), `E(${m},16) maximally even (gaps=${gaps})`);
+  const onsets = p.flatMap((v, i) => v ? [i] : []);
+  for (let distance = 1; distance < m; distance++) {
+    const spans = onsets.map((at, i) => (onsets[(i + distance) % m] - at + SLOTS) % SLOTS);
+    ok(Math.max(...spans) - Math.min(...spans) <= 1,
+      `E(${m},16) balanced across ${distance} onset steps`);
+  }
 }
 eq(intervals(bjorklund(6, 16)), [3,2,3,3,2,3], "E(6,16) is the 3·3·2 (tresillo×2) family");
 
